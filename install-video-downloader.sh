@@ -151,6 +151,9 @@ FORMATS = {
 }
 
 SEARCH_DIRS = ["/opt/homebrew/bin", "/usr/local/bin", "/usr/bin"]
+
+# 52px PNG of the app icon, embedded so this file stays standalone
+ICON_B64 = "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"
 CONFIG_DIR = Path.home() / "Library" / "Application Support" / "Video Downloader"
 CONFIG_FILE = CONFIG_DIR / "config.json"
 
@@ -172,38 +175,91 @@ def sanitize_filename(name, max_len=120):
 
 
 class RoundButton(tk.Canvas):
-    """Flat pill button (native tk buttons ignore colors on macOS)."""
+    """Flat or gradient pill button (native tk buttons ignore colors on macOS)."""
 
     def __init__(self, parent, text, command, width=180, height=44,
-                 color=ACCENT, hover=ACCENT_HOVER, font_size=15, radius=None):
+                 color=ACCENT, hover=ACCENT_HOVER, font_size=15, radius=None,
+                 gradient=None, gradient_hover=None):
         super().__init__(parent, width=width, height=height,
                          highlightthickness=0, bg=parent["bg"])
         self.command = command
-        self.color, self.hover_color = color, hover
         self.enabled = True
-        r = radius if radius is not None else min(12, height // 3)
-        self.shapes = []
-        for coords in [(r, 0, width - r, height), (0, r, width, height - r)]:
-            self.shapes.append(self.create_rectangle(*coords, fill=color, outline=""))
-        for cx, cy in [(r, r), (width - r, r), (r, height - r), (width - r, height - r)]:
-            self.shapes.append(self.create_oval(cx - r, cy - r, cx + r, cy + r,
-                                                fill=color, outline=""))
+        self.w, self.h = width, height
+        self.r = radius if radius is not None else min(12, height // 3)
+        self.color, self.hover_color = color, hover
+        self.gradient = gradient          # (top_hex, bottom_hex) or None
+        self.gradient_hover = gradient_hover or gradient
+        self.lines = []                   # (item, t) rows of a gradient pill
+        self.shapes = []                  # pieces of a solid pill
+        if gradient:
+            self._draw_gradient_pill(gradient)
+        else:
+            self._draw_solid_pill(color)
         self.label = self.create_text(width // 2, height // 2, text=text,
                                       fill="white", font=(FONT, font_size, "bold"))
         self.bind("<Button-1>", lambda e: self.enabled and self.command())
-        self.bind("<Enter>", lambda e: self._fill(self.hover_color) if self.enabled else None)
-        self.bind("<Leave>", lambda e: self._fill(self.color) if self.enabled else None)
+        self.bind("<Enter>", lambda e: self._set_hover(True))
+        self.bind("<Leave>", lambda e: self._set_hover(False))
         self.config(cursor="pointinghand")
 
-    def _fill(self, color):
-        for s in self.shapes:
-            self.itemconfig(s, fill=color)
+    @staticmethod
+    def _lerp(c1, c2, t):
+        a = [int(c1[i:i + 2], 16) for i in (1, 3, 5)]
+        b = [int(c2[i:i + 2], 16) for i in (1, 3, 5)]
+        return "#%02x%02x%02x" % tuple(
+            round(a[i] + (b[i] - a[i]) * t) for i in range(3))
+
+    def _draw_solid_pill(self, color):
+        w, h, r = self.w, self.h, self.r
+        for coords in [(r, 0, w - r, h), (0, r, w, h - r)]:
+            self.shapes.append(self.create_rectangle(*coords, fill=color, outline=""))
+        for cx, cy in [(r, r), (w - r, r), (r, h - r), (w - r, h - r)]:
+            self.shapes.append(self.create_oval(cx - r, cy - r, cx + r, cy + r,
+                                                fill=color, outline=""))
+
+    def _draw_gradient_pill(self, colors):
+        # smooth oval caps in the end colors, full-width gradient band between
+        # (per-row insets at the corners alias badly on retina)
+        w, h, r = self.w, self.h, self.r
+        c1, c2 = colors
+        for item in (self.create_oval(0, 0, 2 * r, 2 * r, fill=c1, outline=""),
+                     self.create_oval(w - 2 * r, 0, w, 2 * r, fill=c1, outline=""),
+                     self.create_rectangle(r, 0, w - r, r, fill=c1, outline="")):
+            self.lines.append((item, 0.0))
+        for item in (self.create_oval(0, h - 2 * r, 2 * r, h, fill=c2, outline=""),
+                     self.create_oval(w - 2 * r, h - 2 * r, w, h, fill=c2, outline=""),
+                     self.create_rectangle(r, h - r, w - r, h, fill=c2, outline="")):
+            self.lines.append((item, 1.0))
+        band = max(h - 2 * r - 1, 1)
+        for y in range(r, h - r):
+            t = (y - r) / band
+            item = self.create_line(0, y, w, y, fill=self._lerp(c1, c2, t))
+            self.lines.append((item, t))
+
+    def _paint(self, colors=None, flat=None):
+        if self.gradient:
+            for item, t in self.lines:
+                self.itemconfig(item, fill=flat or self._lerp(*colors, t))
+        else:
+            for s in self.shapes:
+                self.itemconfig(s, fill=flat or colors)
+
+    def _set_hover(self, on):
+        if not self.enabled:
+            return
+        if self.gradient:
+            self._paint(colors=self.gradient_hover if on else self.gradient)
+        else:
+            self._paint(colors=self.hover_color if on else self.color)
 
     def set_state(self, enabled, text=None, color=None):
         self.enabled = enabled
         if color:
             self.color = color
-        self._fill(self.color if enabled else DISABLED)
+        if enabled:
+            self._paint(colors=self.gradient if self.gradient else self.color)
+        else:
+            self._paint(flat=DISABLED)
         if text is not None:
             self.itemconfig(self.label, text=text)
         self.config(cursor="pointinghand" if enabled else "arrow")
@@ -334,9 +390,18 @@ class VideoDownloaderApp:
         # header: glyph + name
         head = tk.Frame(outer, bg=BG)
         head.pack(fill="x", pady=(0, 18))
-        glyph = tk.Canvas(head, width=40, height=40, bg=BG, highlightthickness=0)
-        glyph.pack(side="left", padx=(0, 12))
-        self._draw_glyph(glyph, 40)
+        self._icon_img = None
+        if ICON_B64:
+            try:
+                self._icon_img = tk.PhotoImage(data=ICON_B64)
+                tk.Label(head, image=self._icon_img, bg=BG, bd=0).pack(
+                    side="left", padx=(0, 12))
+            except tk.TclError:
+                self._icon_img = None
+        if self._icon_img is None:
+            glyph = tk.Canvas(head, width=40, height=40, bg=BG, highlightthickness=0)
+            glyph.pack(side="left", padx=(0, 12))
+            self._draw_glyph(glyph, 40)
         titles = tk.Frame(head, bg=BG)
         titles.pack(side="left")
         self._label(titles, "Video Downloader", 21, TEXT, bold=True).pack(anchor="w")
@@ -410,7 +475,9 @@ class VideoDownloaderApp:
         action = tk.Frame(outer, bg=BG)
         action.pack(fill="x", pady=(0, 14))
         self.download_btn = RoundButton(action, "Download", self._start_download,
-                                        width=210, height=48, radius=14, font_size=16)
+                                        width=210, height=48, radius=14, font_size=16,
+                                        gradient=(ACCENT, ACCENT_2),
+                                        gradient_hover=("#5a6af0", "#8f5ae8"))
         self.download_btn.pack(side="left")
         self.cancel_btn = RoundButton(action, "Cancel", self._cancel, width=100,
                                       height=48, radius=14, color=FIELD,
