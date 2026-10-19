@@ -7,14 +7,17 @@ you paste a new URL), trims clips, and keeps everything h264/QuickTime-
 friendly by default.
 """
 
+import hashlib
 import json
 import os
 import queue
 import re
 import shutil
 import subprocess
+import tempfile
 import threading
 import tkinter as tk
+import urllib.request
 from pathlib import Path
 from tkinter import filedialog, messagebox, ttk
 
@@ -52,6 +55,67 @@ SEARCH_DIRS = ["/opt/homebrew/bin", "/usr/local/bin", "/usr/bin"]
 ICON_B64 = "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"
 CONFIG_DIR = Path.home() / "Library" / "Application Support" / "Video Downloader"
 CONFIG_FILE = CONFIG_DIR / "config.json"
+
+# The app keeps its own copy of yt-dlp's official macOS build and refreshes it
+# on every launch: YouTube breaks old yt-dlp releases every few months (403s),
+# and Homebrew no longer ships bottles for Intel Macs.
+YTDLP_HOME = CONFIG_DIR / "yt-dlp"
+YTDLP_RELEASE = "https://github.com/yt-dlp/yt-dlp/releases/latest/download/"
+YTDLP_ASSET = "yt-dlp_macos.zip"  # the unpacked build starts in ~0.4s; the one-file build takes ~15s
+
+
+def managed_ytdlp():
+    """Path to the app's own yt-dlp, or None if it isn't installed yet."""
+    try:
+        tag = (YTDLP_HOME / "current").read_text().strip()
+    except OSError:
+        return None
+    exe = YTDLP_HOME / tag / "yt-dlp_macos"
+    return str(exe) if tag and os.access(exe, os.X_OK) else None
+
+
+def update_managed_ytdlp():
+    """Install the latest yt-dlp release if ours is missing or out of date.
+
+    Returns (path, version) when a new build was installed, else None.
+    """
+    with urllib.request.urlopen(YTDLP_RELEASE + "SHA2-256SUMS", timeout=30) as r:
+        sums = dict(line.split()[::-1] for line in r.read().decode().splitlines() if line.strip())
+    digest = sums[YTDLP_ASSET]
+    tag = digest[:12]
+
+    # each release unpacks into its own folder and "current" flips to it, so a
+    # yt-dlp that's already running keeps its files; folders left by earlier
+    # launches are no longer in use
+    current = managed_ytdlp()
+    YTDLP_HOME.mkdir(parents=True, exist_ok=True)
+    for old in YTDLP_HOME.iterdir():
+        if old.is_dir() and (not current or old != Path(current).parent):
+            shutil.rmtree(old, ignore_errors=True)
+    if current and Path(current).parent.name == tag:
+        return None
+    dest = YTDLP_HOME / tag
+    with tempfile.TemporaryDirectory(dir=YTDLP_HOME, prefix=".") as tmp:
+        zip_path = os.path.join(tmp, YTDLP_ASSET)
+        h = hashlib.sha256()
+        with urllib.request.urlopen(YTDLP_RELEASE + YTDLP_ASSET, timeout=60) as r, \
+                open(zip_path, "wb") as f:
+            for chunk in iter(lambda: r.read(1 << 20), b""):
+                h.update(chunk)
+                f.write(chunk)
+        if h.hexdigest() != digest:
+            raise ValueError("the download didn't match its published checksum")
+        subprocess.run(["ditto", "-x", "-k", zip_path, os.path.join(tmp, "build")], check=True)
+        os.replace(os.path.join(tmp, "build"), dest)
+
+    # a new binary's first run is slow while macOS scans it, so pay that here
+    exe = dest / "yt-dlp_macos"
+    version = subprocess.run([str(exe), "--version"], capture_output=True, text=True,
+                             timeout=180, check=True).stdout.strip()
+    pointer = YTDLP_HOME / "current.tmp"
+    pointer.write_text(tag)
+    os.replace(pointer, YTDLP_HOME / "current")
+    return str(exe), version
 
 
 def find_tool(name):
@@ -173,7 +237,7 @@ class VideoDownloaderApp:
         except tk.TclError:
             pass
 
-        self.ytdlp_path = find_tool("yt-dlp")
+        self.ytdlp_path = managed_ytdlp() or find_tool("yt-dlp")
         self.ffmpeg_path = find_tool("ffmpeg")
 
         # make sure yt-dlp can find ffmpeg when launched from an .app bundle
@@ -216,10 +280,9 @@ class VideoDownloaderApp:
         self.root.after(50, self._drain_ui_queue)
 
         if not self.ytdlp_path:
-            messagebox.showwarning(
-                "yt-dlp not found",
-                "yt-dlp is not installed.\n\nInstall it with:\n  brew install yt-dlp")
-        elif not self.ffmpeg_path:
+            self.title_status.configure(text="Setting up yt-dlp…", fg=MUTED)
+        threading.Thread(target=self._update_ytdlp_worker, daemon=True).start()
+        if not self.ffmpeg_path:
             messagebox.showwarning(
                 "ffmpeg not found",
                 "ffmpeg is needed to merge video and audio.\n\nInstall it with:\n  brew install ffmpeg")
@@ -467,6 +530,32 @@ class VideoDownloaderApp:
         if self.last_output_file and os.path.exists(self.last_output_file):
             subprocess.run(["open", "-R", self.last_output_file])
 
+    # -------------------------------------------------------------- yt-dlp
+    def _update_ytdlp_worker(self):
+        try:
+            self._ui(self._ytdlp_updated, update_managed_ytdlp(), None)
+        except Exception as e:
+            self._ui(self._ytdlp_updated, None, e)
+
+    def _ytdlp_updated(self, installed, error):
+        first_install = not self.ytdlp_path
+        if installed:
+            self.ytdlp_path, version = installed
+            self._log(f"yt-dlp updated to {version}.")
+        elif error:
+            self._log(f"Couldn't update yt-dlp: {error}")
+        if not first_install:
+            return
+        if self.ytdlp_path:
+            self.title_status.configure(text=" ", fg=MUTED)
+            self._maybe_fetch_title()  # a URL may have been pasted while we waited
+        else:
+            self.title_status.configure(text="yt-dlp isn't installed.", fg=ERR)
+            messagebox.showwarning(
+                "yt-dlp not found",
+                f"Couldn't download yt-dlp:\n{error}\n\nCheck your internet connection "
+                "and reopen the app, or install it with:\n  brew install yt-dlp")
+
     # -------------------------------------------------- title auto-naming
     def _on_url_changed(self, *_):
         if self._debounce_id:
@@ -523,7 +612,9 @@ class VideoDownloaderApp:
             messagebox.showerror("Invalid URL", "Paste a full video URL starting with http:// or https://")
             return None
         if not self.ytdlp_path:
-            messagebox.showerror("yt-dlp missing", "Install yt-dlp first:\n  brew install yt-dlp")
+            messagebox.showerror("yt-dlp missing",
+                                 "yt-dlp isn't ready yet. The app downloads it when it opens — "
+                                 "try again in a moment, or install it with:\n  brew install yt-dlp")
             return None
         if not os.path.isdir(self.save_var.get()):
             messagebox.showerror("Bad folder", f"Save location does not exist:\n{self.save_var.get()}")

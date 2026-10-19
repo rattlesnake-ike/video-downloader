@@ -49,13 +49,7 @@ else
     brew install python-tk@3.13
 fi
 
-echo "Checking for yt-dlp..."
-if command -v yt-dlp &> /dev/null || [ -x /opt/homebrew/bin/yt-dlp ] || [ -x /usr/local/bin/yt-dlp ]; then
-    echo "  ✓ found"
-else
-    echo "  installing yt-dlp via Homebrew..."
-    brew install yt-dlp
-fi
+echo "yt-dlp: the app downloads its own copy when it opens and keeps it current."
 
 echo "Checking for ffmpeg (needed to merge video + audio)..."
 if command -v ffmpeg &> /dev/null || [ -x /opt/homebrew/bin/ffmpeg ] || [ -x /usr/local/bin/ffmpeg ]; then

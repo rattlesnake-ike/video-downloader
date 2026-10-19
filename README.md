@@ -15,9 +15,15 @@ and icon embedded). They need [Homebrew](https://brew.sh), then:
 bash install-video-downloader.sh
 ```
 
-The installer checks for Python (with tkinter), yt-dlp, and ffmpeg, installs
-any that are missing via Homebrew, and creates `/Applications/Video
-Downloader.app`. Launch it from Applications or Spotlight.
+The installer checks for Python (with tkinter) and ffmpeg, installs any that
+are missing via Homebrew, and creates `/Applications/Video Downloader.app`.
+Launch it from Applications or Spotlight.
+
+The app keeps its own copy of yt-dlp's official macOS build in
+`~/Library/Application Support/Video Downloader/yt-dlp` and checks for a new
+release every time it opens (checksum-verified). Sites like YouTube break old
+yt-dlp releases every few months, so a stale copy is the usual cause of
+`HTTP Error 403: Forbidden`.
 
 ## Features
 
@@ -53,8 +59,8 @@ Downloader.app`. Launch it from Applications or Spotlight.
 - **Vimeo** without login frequently returns 401 — yt-dlp needs browser
   impersonation that the Homebrew build lacks. Setting Cookies to your
   browser usually gets around it.
-- Site support comes from yt-dlp; when a site changes and breaks, update with
-  `brew upgrade yt-dlp`.
+- Site support comes from yt-dlp. When a site changes and breaks, quit and
+  reopen the app to pick up the newest yt-dlp release.
 
 ## Uninstall
 
