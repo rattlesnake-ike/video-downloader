@@ -56,9 +56,8 @@ yt-dlp releases every few months, so a stale copy is the usual cause of
 
 ## Known limits
 
-- **Vimeo** without login frequently returns 401 — yt-dlp needs browser
-  impersonation that the Homebrew build lacks. Setting Cookies to your
-  browser usually gets around it.
+- **Vimeo** without login can return 401. Setting Cookies to your browser
+  usually gets around it.
 - Site support comes from yt-dlp. When a site changes and breaks, quit and
   reopen the app to pick up the newest yt-dlp release.
 
@@ -70,7 +69,8 @@ rm -rf "/Applications/Video Downloader.app"
 
 ## Notes
 
-Runs entirely locally; talks only to the video site. Respect each site's
-terms of service and copyright when downloading.
+Runs entirely locally. It talks to the video site, and at each launch to
+GitHub to check for a new yt-dlp release. Respect each site's terms of
+service and copyright when downloading.
 
 MIT licensed — see [LICENSE](LICENSE).
